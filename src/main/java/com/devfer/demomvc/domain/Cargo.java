@@ -9,7 +9,7 @@ public class Cargo extends AbstractyEntity<Long>{
 
     //Lembrando que, como default a anotação replica o nome do atributo da class para o atributo da tabela também
     //Dexei apenas como exmplo
-    @Column(name = "nome", length = 60, unique = true, nullable = false)
+    @Column(name = "nome", nullable = false, unique = true, length = 60)
     private String nome;
 
     //Temos desta forma, um departamento pra N Cargos
@@ -20,7 +20,7 @@ public class Cargo extends AbstractyEntity<Long>{
 
     //Cargo 1 x n Funcionario
     @OneToMany(mappedBy = "cargo")
-    private List<Funcionario> Funcioanrios;
+    private List<Funcionario> funcionarios;
 
     public String getNome() {
         return nome;
@@ -33,4 +33,13 @@ public class Cargo extends AbstractyEntity<Long>{
     public Departamento getDepartamento() { return departamento; }
 
     public void setDepartamento(Departamento departamento) { this.departamento = departamento; }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+
 }
