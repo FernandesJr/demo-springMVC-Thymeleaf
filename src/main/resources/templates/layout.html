@@ -17,6 +17,7 @@
     <link href="/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
+    <!-- Atenção a estrutura de páginas que o thymeleaf usa-->
     <link href="/css/style.css" rel="stylesheet" />
 </head>
 <body>
@@ -25,18 +26,18 @@
     </header>
     <div class="layout-main">
         <aside>
-            <nav th:replace="fragments/sidebar :: side-bar">
+            <nav th:replace="fragments/sidebar :: nav-sidebar">
                 <span>menu</span>
             </nav>
         </aside>
 
-        <!--Recebendo o fragmento de Home-->
+        <!--Recebendo o fragmento de Dinâmico das outras páginas-->
         <section layout:fragment="corpo">
             <div>dinâmica</div>
         </section>
     </div>
 
-    <footer th:repleace="fragments/footer :: rodape">
+    <footer th:replace="fragments/footer :: rodape">
         <div>footer</div>
     </footer>
 
