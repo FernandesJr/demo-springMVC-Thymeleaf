@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!-- namespace -->
@@ -25,7 +25,7 @@
     </header>
     <div class="layout-main">
         <aside>
-            <nav th:replace="side-bar">
+            <nav th:replace="fragments/sidebar :: side-bar">
                 <span>menu</span>
             </nav>
         </aside>

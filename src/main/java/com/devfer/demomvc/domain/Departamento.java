@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "DEPARTAMENTOS")
-public class Departamento extends AbstractyEntity<Long>{
+public class Departamento extends AbstractEntity<Long> {
 
     //Nome único, e não pode ser null
     @Column(name = "nome", nullable = false, unique = true, length = 60)

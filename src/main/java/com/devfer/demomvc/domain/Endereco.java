@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ENDERECOS")
-public class Endereco extends AbstractyEntity<Long>{
+public class Endereco extends AbstractEntity<Long> {
 
     //Não pode ser null
     @Column(nullable = false)
