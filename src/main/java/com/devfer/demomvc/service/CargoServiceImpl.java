@@ -40,4 +40,12 @@ public class CargoServiceImpl implements CargoService{
     public List<Cargo> buscarTodos() {
         return dao.findAll();
     }
+
+    @Override
+    public boolean hasFuncionario(Long id) {
+        if(dao.findById(id).getFuncionarios().isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }

@@ -41,6 +41,7 @@ public class DepartamentoController {
     public String preEditar(@PathVariable("id") Long id, ModelMap model){
         //Recuperando informações do departamento e enviando para onde poderá editar
         model.addAttribute("departamento",service.buscarPorId(id));
+        model.addAttribute("editar","editar");
         return "departamento/cadastro";
     }
 

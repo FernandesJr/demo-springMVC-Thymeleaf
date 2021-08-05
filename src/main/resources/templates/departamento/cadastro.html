@@ -15,7 +15,8 @@
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
 					<i class="oi oi-caret-right"></i>
-					<span>Cadastrar Departamentos</span>
+					<span th:if="${editar} == null ">Cadastrar Departamentos</span>
+					<span th:if="${editar} != null ">Editar Departamento</span>
 				</li>
 			</ul>
 			<a class="btn btn-primary btn-md" href="/departamentos/listar" role="button">
