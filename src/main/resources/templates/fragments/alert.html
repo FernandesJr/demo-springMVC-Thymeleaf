@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- As divs não têm o th:fragment porque quando faço a chamada, chamo toda a página-->
+    <div th:if="${success} != null">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="oi oi-check"></i>
+            <strong th:text="${success}"></strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div th:if="${fail} != null">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="oi circle-alert"></i>
+            <span>
+                <strong th:text="${fail}"></strong>
+            </span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

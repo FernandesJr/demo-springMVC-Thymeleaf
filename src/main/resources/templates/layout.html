@@ -41,11 +41,23 @@
         <div>footer</div>
     </footer>
 
+
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
     <script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+
+        //Montar a uri para o modal de exclusão
+        var uri = '';
+        $('button[id*="btn_"]').click(function(){
+            uri = "http://localhost:8080/" + $(this).attr('id').split("_")[1];
+        });
+
+        //Adcionando ao href de exclusão do modal
+        $('#ok_confirm').click(function(){
+            document.location.href = uri;
+        });
 
 		$(function() {
 			$('[data-toggle="popover"]').popover();
