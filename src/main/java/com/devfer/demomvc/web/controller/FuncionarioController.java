@@ -6,11 +6,13 @@ import com.devfer.demomvc.domain.UF;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -31,6 +33,7 @@ public class FuncionarioController {
     @GetMapping("/listar")
     public String listar(ModelMap model){
         model.addAttribute("funcionarios", funcionarioService.buscarTodos());
+        model.addAttribute("cargos", cargoService.buscarTodos());
         return "/funcionario/lista";
     }
 
@@ -59,6 +62,28 @@ public class FuncionarioController {
         this.funcionarioService.excluir(id);
         attr.addFlashAttribute("success", "Funcionário excluído com sucesso.");
         return "redirect:/funcionarios/listar";
+    }
+
+    @GetMapping("/buscar/nome")
+    public String buscarNome(@RequestParam String nome, ModelMap model){
+        model.addAttribute("funcionarios", this.funcionarioService.buscarPorNome(nome));
+        return "funcionario/lista";
+    }
+
+    @GetMapping("/buscar/cargo")
+    public String buscarCargo(@RequestParam Long id, ModelMap model){
+        model.addAttribute("funcionarios", funcionarioService.buscarPorCargo(id));
+        return "funcionario/lista";
+    }
+
+    @GetMapping("/buscar/data")
+    public String buscarData(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                 @RequestParam(name = "entrada", required = false) LocalDate entrada ,
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                             @RequestParam(name = "saida", required = false) LocalDate saida,
+                             ModelMap model){
+        model.addAttribute("funcionarios", this.funcionarioService.buscarPorData(entrada, saida));
+        return "funcionario/lista";
     }
 
     @ModelAttribute("cargos")
