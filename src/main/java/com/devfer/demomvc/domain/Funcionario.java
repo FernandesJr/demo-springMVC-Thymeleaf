@@ -4,6 +4,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -11,13 +16,19 @@ import java.time.LocalDate;
 @Table(name = "FUNCIONARIOS")
 public class Funcionario extends AbstractEntity<Long> {
 
+    //A configuração das menssagens vem do file ValidationMessages
+    @NotBlank
+    @Size(min = 3, max = 255)
     @Column(nullable = false, unique = true)
     private String nome;
 
+    @NotNull
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00") //Converte a String quando sai do form
     @Column(nullable = false, columnDefinition = "DECIMAL(7,2) DEFAULT 0.00")
     private BigDecimal salario;
 
+    @NotNull
+    @PastOrPresent(message = "{PastOrPresent.funcionario.dataEntrada}")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) //Converte a string que sai do form para Date
     @Column(name= "data_entrada", nullable = false, columnDefinition = "DATE")
     private LocalDate dataEntrada;
@@ -29,6 +40,7 @@ public class Funcionario extends AbstractEntity<Long> {
     //Funcionario n x 1 Cargo
     @ManyToOne()
     @JoinColumn(name = "cargo_id_fk")
+    @NotNull(message = "{NotNull.funcionario.cargo}")
     private Cargo cargo; //Esse atributo é o lado forte do relacionamento, por conter a FK
 
     //Esta sendo mapeado apenas desse lado do relacionamento porque nesse projeto somente
@@ -36,6 +48,7 @@ public class Funcionario extends AbstractEntity<Long> {
     //Caso também tivesse uma busca de Endereços teriamos que mapear na class Endereco também aula 19
     @OneToOne(cascade = CascadeType.ALL) //Quando buscar por Funcionário ele trará por cascata o endereço
     @JoinColumn(name = "endereco_id_fk")
+    @Valid
     private Endereco endereco;
 
     public String getNome() {
