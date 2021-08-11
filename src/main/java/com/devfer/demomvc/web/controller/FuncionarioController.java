@@ -41,7 +41,7 @@ public class FuncionarioController {
         return"/funcionario/cadastro";
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public String listar(ModelMap model){
         model.addAttribute("funcionarios", funcionarioService.buscarTodos());
         model.addAttribute("cargos", cargoService.buscarTodos());
@@ -71,14 +71,14 @@ public class FuncionarioController {
         }
         this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
-        return "redirect:/funcionarios/listar";
+        return "redirect:/funcionarios";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id, RedirectAttributes attr){
         this.funcionarioService.excluir(id);
         attr.addFlashAttribute("success", "Funcionário excluído com sucesso.");
-        return "redirect:/funcionarios/listar";
+        return "redirect:/funcionarios";
     }
 
     @GetMapping("/buscar/nome")
