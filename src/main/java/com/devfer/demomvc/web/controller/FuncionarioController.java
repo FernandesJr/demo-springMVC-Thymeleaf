@@ -5,11 +5,13 @@ import com.devfer.demomvc.domain.Funcionario;
 import com.devfer.demomvc.domain.UF;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.FuncionarioService;
+import com.devfer.demomvc.validator.FuncionarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,6 +28,13 @@ public class FuncionarioController {
 
     @Autowired
     private CargoService cargoService;
+
+    //Primeiro método a ser execultado ao receber requisição
+    @InitBinder
+    public void initBindier(WebDataBinder binder){
+        //Chamando o validator
+        binder.addValidators(new FuncionarioValidator());
+    }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Funcionario funcionario){

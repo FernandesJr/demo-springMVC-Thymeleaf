@@ -31,6 +31,7 @@ public class Endereco extends AbstractEntity<Long> {
     @Digits(integer = 5, fraction = 1)
     private Integer numero;
 
+    @NotNull(message = "{NotNull.endereco.uf}")
     @Column(nullable = false, length = 2)
     @Enumerated(EnumType.STRING) //Diziando ao DB que vai ser um Enum do tipo String
     private UF uf;
