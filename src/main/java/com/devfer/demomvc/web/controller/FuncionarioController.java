@@ -38,20 +38,20 @@ public class FuncionarioController {
 
     @GetMapping("/cadastrar")
     public String cadastrar(Funcionario funcionario){
-        return"/funcionario/cadastro";
+        return"funcionario/cadastro";
     }
 
     @GetMapping
     public String listar(ModelMap model){
         model.addAttribute("funcionarios", funcionarioService.buscarTodos());
         model.addAttribute("cargos", cargoService.buscarTodos());
-        return "/funcionario/lista";
+        return "funcionario/lista";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr){
         if(result.hasErrors()){
-            return "/funcionario/cadastro";
+            return "funcionario/cadastro";
         }
         funcionarioService.salvar(funcionario);
         attr.addFlashAttribute("success","Funcionário cadastrado com sucesso.");
@@ -67,7 +67,7 @@ public class FuncionarioController {
     @PostMapping("/editar")
     public String editar(@Valid Funcionario funcionario, BindingResult result ,RedirectAttributes attr){
         if(result.hasErrors()){
-            return "/funcionario/cadastro";
+            return "funcionario/cadastro";
         }
         this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");

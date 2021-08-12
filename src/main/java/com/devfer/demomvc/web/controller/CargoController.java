@@ -26,13 +26,13 @@ public class CargoController {
 
     @GetMapping("/cadastrar")
     public String cadastrar(Cargo cargo){
-        return"/cargo/cadastro";
+        return"cargo/cadastro";
     }
 
     @GetMapping("/listar")
     public String listar(ModelMap model){
         model.addAttribute("cargos", cargoService.buscarTodos());
-        return "/cargo/lista";
+        return "cargo/lista";
     }
 
 
@@ -43,7 +43,7 @@ public class CargoController {
         //De forma auto, apenas implementei o metódo que faz isso em StringToDepartamento, Ele chama esse class automaticamente
         //Já chega aqui pronto
         if(result.hasErrors()){
-            return "/cargo/cadastro";
+            return "cargo/cadastro";
         }
         this.cargoService.salvar(cargo);
         attr.addFlashAttribute("success", "Cargo inserido com sucesso.");
@@ -67,7 +67,7 @@ public class CargoController {
     public String editar(@Valid Cargo cargo, BindingResult result, RedirectAttributes attr){
         //Lembrando, Valid e o model devem está um ao lado do outro na assinatura do método
         if(result.hasErrors()){
-            return "/cargo/cadastro";
+            return "cargo/cadastro";
         }
         cargoService.editar(cargo);
         attr.addFlashAttribute("success", "Cargo editado com sucesso.");

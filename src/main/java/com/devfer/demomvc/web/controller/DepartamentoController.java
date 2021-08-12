@@ -24,20 +24,20 @@ public class DepartamentoController {
 
     @GetMapping("/cadastrar")
     public String cadastrar(Departamento departamento){
-        return"/departamento/cadastro";
+        return"departamento/cadastro";
     }
 
     @GetMapping("/listar")
     public String listar(ModelMap model){
         model.addAttribute("departamentos",service.buscarTodos());
-        return "/departamento/lista";
+        return "departamento/lista";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid Departamento departamento, BindingResult result, RedirectAttributes attr){
         //Verifica se algum dado do formulário não foi preenchido de acordo com as especificações do Model
         if(result.hasErrors()){
-            return "/departamento/cadastro";
+            return "departamento/cadastro";
         }
         service.salvar(departamento);
         attr.addFlashAttribute("success", "Departamento salvo com sucesso.");
@@ -55,7 +55,7 @@ public class DepartamentoController {
     @PostMapping("/editar")
     public String editar(@Valid Departamento departamento, BindingResult result, RedirectAttributes attr){
         if(result.hasErrors()){
-            return  "/departamento/cadastro";
+            return  "departamento/cadastro";
         }
         service.editar(departamento);
         //O redirect envia destruindo a instância de departamento, então precisa adicionar o attr
