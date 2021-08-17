@@ -10,13 +10,16 @@ public class PaginacaoUtil<T>{
     private int tamanho;
     private long totPaginas;
     private List<T> registros;
+    private String ordenacao;
 
-    public PaginacaoUtil(int pagina, int tamanho, long totPaginas, List<T> registros) {
+    public PaginacaoUtil(int pagina, int tamanho, long totPaginas, List<T> registros, String ordenacao) {
         this.pagina = pagina;
         this.tamanho = tamanho;
         this.totPaginas = totPaginas;
         this.registros = registros;
+        this.ordenacao = ordenacao;
     }
+
 
     public int getPagina() {
         return pagina;
@@ -33,4 +36,6 @@ public class PaginacaoUtil<T>{
     public List<T> getRegistros() {
         return registros;
     }
+
+    public String getOrdenacao(){return ordenacao;}
 }

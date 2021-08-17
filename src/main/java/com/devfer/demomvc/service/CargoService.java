@@ -20,5 +20,5 @@ public interface CargoService {
 
     boolean hasFuncionario(Long id);
 
-    PaginacaoUtil<Cargo> buscaPorPagina(int pagina);
+    PaginacaoUtil<Cargo> buscaPorPagina(int pagina, String ordenacao);
 }

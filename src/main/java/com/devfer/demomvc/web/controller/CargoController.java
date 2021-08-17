@@ -32,9 +32,12 @@ public class CargoController {
     }
 
     @GetMapping("/listar")
-    public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page){
+    public String listar(ModelMap model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("ord") Optional<String> ord ){
+        String ordenacao = ord.orElse("asc");
         int paginaAtual = page.orElse(1); //Caso não venha parametro set o 1
-        PaginacaoUtil<Cargo> pageCargo = cargoService.buscaPorPagina(paginaAtual);
+        PaginacaoUtil<Cargo> pageCargo = cargoService.buscaPorPagina(paginaAtual, ordenacao);
         model.addAttribute("pageCargo", pageCargo);
         return "cargo/lista";
     }
