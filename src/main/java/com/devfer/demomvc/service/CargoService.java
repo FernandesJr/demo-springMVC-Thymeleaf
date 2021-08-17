@@ -1,6 +1,7 @@
 package com.devfer.demomvc.service;
 
 import com.devfer.demomvc.domain.Cargo;
+import com.devfer.demomvc.util.PaginacaoUtil;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface CargoService {
     List<Cargo> buscarTodos();
 
     boolean hasFuncionario(Long id);
+
+    PaginacaoUtil<Cargo> buscaPorPagina(int pagina);
 }

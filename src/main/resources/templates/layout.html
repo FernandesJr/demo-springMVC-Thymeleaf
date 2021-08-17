@@ -41,7 +41,7 @@
         <div>footer</div>
     </footer>
 
-
+    <!--Não é obrigado a usar o Thymeleaf nos link, por padrão deixei-->
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
     <script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -51,7 +51,7 @@
         //Montar a uri para o modal de exclusão
         var uri = '';
         $('button[id*="btn_"]').click(function(){
-            uri = "http://localhost:8080/" + $(this).attr('id').split("_")[1];
+            uri = "/" + $(this).attr('id').split("_")[1];
         });
 
         //Adcionando ao href de exclusão do modal

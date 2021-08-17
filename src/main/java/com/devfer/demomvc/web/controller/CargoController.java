@@ -4,6 +4,7 @@ import com.devfer.demomvc.domain.Cargo;
 import com.devfer.demomvc.domain.Departamento;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.DepartamentoService;
+import com.devfer.demomvc.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/cargos")
@@ -30,8 +32,10 @@ public class CargoController {
     }
 
     @GetMapping("/listar")
-    public String listar(ModelMap model){
-        model.addAttribute("cargos", cargoService.buscarTodos());
+    public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page){
+        int paginaAtual = page.orElse(1); //Caso não venha parametro set o 1
+        PaginacaoUtil<Cargo> pageCargo = cargoService.buscaPorPagina(paginaAtual);
+        model.addAttribute("pageCargo", pageCargo);
         return "cargo/lista";
     }
 
