@@ -63,6 +63,9 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     public List<Funcionario> buscarPorData(LocalDate entrada, LocalDate saida) {
 
         if(entrada != null && saida != null){
+            if (saida.isBefore(entrada)){
+                return null;
+            }
             return dao.findByDateInAndOut(entrada, saida);
         }else if(entrada != null){
             return dao.findByDateIn(entrada);

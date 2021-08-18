@@ -74,7 +74,7 @@
 				<div class="col">
 					<div class="collapse" id="collapseData">
 						<nav class="navbar navbar-light bg-light">
-							<form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/data}">
+							<form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/data}" th:object="${funcionario}">
 								<input class="form-control mr-sm-2" type="date" aria-label="Search"
 									   th:name="entrada" />
 								<input class="form-control mr-sm-2" type="date" aria-label="Search"
@@ -139,8 +139,8 @@
 					</tbody>
 				</table>
 			</div>
-
-			<div class="row">
+			<!-- th:if="${success} != null" -->
+			<div th:if="${pageFuncionario} != null" class="row">
 				<div class="col">
 					<!--Inicio dos seletores de paginação justify-content-around-->
 					<div class="d-flex justify-content-around">
@@ -173,7 +173,6 @@
 					</div>
 					<!--Final dos seletores de paginação-->
 				</div>
-
 			</div>
 		</div>
 		<div th:replace="fragments/modal"></div>

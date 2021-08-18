@@ -62,33 +62,38 @@ xmlns:th="http://www.thymeleaf.org">
 					</tr>
 					</tbody>
 				</table>
-				<div class="d-flex justify-content-around">
-					<nav aria-label="Navegação de página exemplo">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" th:href="@{/cargos/listar(page=${1}, ord=${pageCargo.ordenacao}) }" tabindex="-1">Primeira</a>
-							</li>
-						</ul>
-					</nav>
-					<nav aria-label="Navegação de página exemplo">
-						<ul class="pagination justify-content-center">
-							<li th:class="${pageCargo.pagina == 1} ? 'page-item disabled' : 'page-item'">
-								<a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina - 1}, ord=${pageCargo.ordenacao}) }" tabindex="-1">Anterior</a>
-							</li>
-							<li class="page-link" th:text="|${pageCargo.pagina} de ${pageCargo.totPaginas}|">1</li>
-							<li th:class="${pageCargo.pagina == pageCargo.totPaginas} ? 'page-item disabled' : 'page-item'">
-								<a class="page-link"
-								   th:href="@{/cargos/listar(page=${pageCargo.pagina + 1}, ord=${pageCargo.ordenacao}) }">Próximo</a>
-							</li>
-						</ul>
-					</nav>
-					<nav aria-label="Navegação de página exemplo">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.totPaginas}, ord=${pageCargo.ordenacao})}" tabindex="-1">Última</a>
-							</li>
-						</ul>
-					</nav>
+			</div>
+			<!--Inicio dos componestes de paginação-->
+			<div class="row">
+				<div class="col">
+					<div class="d-flex justify-content-around">
+						<nav aria-label="Navegação de página exemplo" class="btn-none-displaySmall">
+							<ul class="pagination">
+								<li class="page-item">
+									<a class="page-link" th:href="@{/cargos/listar(page=${1}, ord=${pageCargo.ordenacao}) }" tabindex="-1">Primeira</a>
+								</li>
+							</ul>
+						</nav>
+						<nav aria-label="Navegação de página exemplo">
+							<ul class="pagination justify-content-center">
+								<li th:class="${pageCargo.pagina == 1} ? 'page-item disabled' : 'page-item'">
+									<a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina - 1}, ord=${pageCargo.ordenacao}) }" tabindex="-1">Anterior</a>
+								</li>
+								<li class="page-link" th:text="|${pageCargo.pagina} de ${pageCargo.totPaginas}|">1</li>
+								<li th:class="${pageCargo.pagina == pageCargo.totPaginas} ? 'page-item disabled' : 'page-item'">
+									<a class="page-link"
+									   th:href="@{/cargos/listar(page=${pageCargo.pagina + 1}, ord=${pageCargo.ordenacao}) }">Próximo</a>
+								</li>
+							</ul>
+						</nav>
+						<nav aria-label="Navegação de página exemplo" class="btn-none-displaySmall">
+							<ul class="pagination">
+								<li class="page-item">
+									<a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.totPaginas}, ord=${pageCargo.ordenacao})}" tabindex="-1">Última</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -79,14 +79,14 @@ public class FuncionarioController {
         }
         this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
-        return "redirect:/funcionarios";
+        return "redirect:/funcionarios/listar";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id, RedirectAttributes attr){
         this.funcionarioService.excluir(id);
         attr.addFlashAttribute("success", "Funcionário excluído com sucesso.");
-        return "redirect:/funcionarios";
+        return "redirect:/funcionarios/listar";
     }
 
     @GetMapping("/buscar/nome")
@@ -107,7 +107,11 @@ public class FuncionarioController {
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                              @RequestParam(name = "saida", required = false) LocalDate saida,
                              ModelMap model){
-        model.addAttribute("funcionarios", this.funcionarioService.buscarPorData(entrada, saida));
+        if(this.funcionarioService.buscarPorData(entrada, saida) == null){
+            model.addAttribute("fail", "A data de demissão não pode ser superior a admissão.");
+        }else{
+            model.addAttribute("funcionarios", this.funcionarioService.buscarPorData(entrada, saida));
+        }
         return "funcionario/lista";
     }
 
@@ -120,4 +124,9 @@ public class FuncionarioController {
     public UF[] listarUFS(){
         return UF.values();
     }
+    /*
+    @ModelAttribute("pageFuncionario")
+    public PaginacaoUtil<Funcionario> listarPaginacao(){
+        return funcionarioService.buscaPaginada(1,"asc");
+    }*/
 }
