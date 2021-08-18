@@ -1,8 +1,8 @@
 package com.devfer.demomvc.dao;
 
 import com.devfer.demomvc.domain.Funcionario;
+import com.devfer.demomvc.util.PaginacaoUtil;
 import org.springframework.stereotype.Repository;
-import org.thymeleaf.expression.Strings;
 
 import javax.persistence.TypedQuery;
 import java.time.LocalDate;
@@ -59,5 +59,22 @@ public class FuncionarioDaoImpl extends AbstractDao<Funcionario, Long> implement
         return query.getResultList();
     }
     */
+
+    //Paginação
+    public PaginacaoUtil<Funcionario> findPaginada(int pagina, String ordenacao){
+        int tamanho = 5;
+        int inicio = (pagina - 1) * tamanho; //1-1=0*5=0, 2-1=1*5=5, 3-1=2*5=10
+        List<Funcionario> registros = getEntityManager()
+                .createQuery("select f from Funcionario f order by f.nome " + ordenacao, Funcionario.class)
+                .setFirstResult(inicio)
+                .setMaxResults(tamanho)
+                .getResultList();
+        long totpag = (countFuncionarios() + (tamanho - 1)) / tamanho; //6+4=10/5=2 17+4=21/5=4,2 como é long arredonda para baixo
+        return new PaginacaoUtil<Funcionario>(pagina, tamanho, totpag, registros, ordenacao);
+    }
+
+    public long countFuncionarios(){
+        return getEntityManager().createQuery("Select count(*) from Funcionario", Long.class).getSingleResult();
+    }
 
 }

@@ -11,7 +11,8 @@ public class FuncionarioValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Funcionario.class.equals(clazz);
+        // return Funcionario.class.equals(clazz);
+        return true;
     }
 
     @Override

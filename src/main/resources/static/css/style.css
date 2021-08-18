@@ -37,7 +37,6 @@ body {
  */
 .sidebar {
     width: 0px;
-    height: 100vh;
     border-top: 1px solid #eee;
     border-right: 1px solid #eee;    
     background-color: #f8f9fa;
@@ -117,4 +116,10 @@ body {
 	display: block;
 	color: #777777;
 	text-align: center;
+}
+
+@media(max-width: 500px){
+    .btn-none-displaySmall {
+        display: none;
+    }
 }

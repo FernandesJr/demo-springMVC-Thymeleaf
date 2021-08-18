@@ -2,6 +2,7 @@ package com.devfer.demomvc.service;
 
 
 import com.devfer.demomvc.domain.Funcionario;
+import com.devfer.demomvc.util.PaginacaoUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface FuncionarioService {
     List<Funcionario> buscarPorCargo(Long id);
 
     List<Funcionario> buscarPorData(LocalDate entrada, LocalDate saida);
+
+    PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao);
 }

@@ -58,7 +58,7 @@
 					<div class="collapse" id="collapseCargo">
 
 						<nav class="navbar navbar-light bg-light">
-							<form class="form-inline" method="GET" action="/funcionarios/buscar/cargo">
+							<form class="form-inline" method="GET" th:action="@{/funcionarios/buscar/cargo}">
 								<select class="form-control mr-sm-2" th:name="id" aria-label="Search">
 									<option value="0">Cargo</option>
 									<option th:each="c : ${cargos}" th:value="${c.id}" th:text="${c.nome}">Auxiliar Contábil</option>
@@ -138,6 +138,42 @@
 					</tr>
 					</tbody>
 				</table>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<!--Inicio dos seletores de paginação justify-content-around-->
+					<div class="d-flex justify-content-around">
+						<nav aria-label="Navegação de página exemplo" class="btn-none-displaySmall">
+							<ul class="pagination">
+								<li class="page-item">
+									<a class="page-link" th:href="@{/funcionarios/listar(page=${1}, ord=${pageFuncionario.ordenacao}) }" tabindex="-1">Primeira</a>
+								</li>
+							</ul>
+						</nav>
+						<nav aria-label="Navegação de página exemplo">
+							<ul class="pagination justify-content-center">
+								<li th:class="${pageFuncionario.pagina == 1} ? 'page-item disabled' : 'page-item'">
+									<a class="page-link" th:href="@{/funcionarios/listar(page=${pageFuncionario.pagina - 1}, ord=${pageFuncionario.ordenacao}) }" tabindex="-1">Anterior</a>
+								</li>
+								<li class="page-link" th:text="|${pageFuncionario.pagina} de ${pageFuncionario.totPaginas}|">1</li>
+								<li th:class="${pageFuncionario.pagina == pageFuncionario.totPaginas} ? 'page-item disabled' : 'page-item'">
+									<a class="page-link"
+									   th:href="@{/funcionarios/listar(page=${pageFuncionario.pagina + 1}, ord=${pageFuncionario.ordenacao}) }">Próximo</a>
+								</li>
+							</ul>
+						</nav>
+						<nav aria-label="Navegação de página exemplo" class="btn-none-displaySmall">
+							<ul class="pagination">
+								<li class="page-item">
+									<a class="page-link" th:href="@{/funcionarios/listar(page=${pageFuncionario.totPaginas}, ord=${pageFuncionario.ordenacao})}" tabindex="-1">Última</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<!--Final dos seletores de paginação-->
+				</div>
+
 			</div>
 		</div>
 		<div th:replace="fragments/modal"></div>

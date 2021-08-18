@@ -1,6 +1,7 @@
 package com.devfer.demomvc.dao;
 
 import com.devfer.demomvc.domain.Funcionario;
+import com.devfer.demomvc.util.PaginacaoUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,4 +27,6 @@ public interface FuncionarioDao {
     List<Funcionario> findByDateIn(LocalDate entrada);
 
     List<Funcionario> findByDateOut(LocalDate saida);
+
+    PaginacaoUtil<Funcionario> findPaginada(int pagina, String ordenacao);
 }

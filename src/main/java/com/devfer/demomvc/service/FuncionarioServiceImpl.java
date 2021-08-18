@@ -2,6 +2,7 @@ package com.devfer.demomvc.service;
 
 import com.devfer.demomvc.dao.FuncionarioDao;
 import com.devfer.demomvc.domain.Funcionario;
+import com.devfer.demomvc.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,5 +70,10 @@ public class FuncionarioServiceImpl implements FuncionarioService{
             return dao.findByDateOut(saida);
         }
         return new ArrayList();
+    }
+
+    @Override
+    public PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao) {
+        return dao.findPaginada(pagina, ordenacao);
     }
 }

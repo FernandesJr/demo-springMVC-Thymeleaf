@@ -12,7 +12,7 @@ public class CargoDaoImpl extends AbstractDao<Cargo, Long> implements CargoDao{
     public PaginacaoUtil<Cargo> buscaPaginada(int pagina, String ordenacao){
         int tamanho = 5;
         int inicio = (pagina - 1) * tamanho; // pagina 1 - 1 = 0 * 5 = 0 || pagina 2 - 1 = 1 * 5 = 5 inicio
-        var cargos = this.getEntityManager()
+        List<Cargo> cargos = this.getEntityManager()
                 .createQuery("select c from Cargo c order by c.nome " + ordenacao, Cargo.class)
                 .setFirstResult(inicio)
                 .setMaxResults(tamanho)

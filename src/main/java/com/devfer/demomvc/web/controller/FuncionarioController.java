@@ -5,6 +5,7 @@ import com.devfer.demomvc.domain.Funcionario;
 import com.devfer.demomvc.domain.UF;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.FuncionarioService;
+import com.devfer.demomvc.util.PaginacaoUtil;
 import com.devfer.demomvc.validator.FuncionarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/funcionarios")
@@ -41,9 +43,15 @@ public class FuncionarioController {
         return"funcionario/cadastro";
     }
 
-    @GetMapping
-    public String listar(ModelMap model){
-        model.addAttribute("funcionarios", funcionarioService.buscarTodos());
+    @GetMapping("/listar")
+    public String listar(ModelMap model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("ord") Optional<String> ord){
+        int pagina = page.orElse(1);
+        String ordenacao = ord.orElse("asc");
+        PaginacaoUtil<Funcionario> paginacao = funcionarioService.buscaPaginada(pagina, ordenacao);
+        model.addAttribute("pageFuncionario", paginacao);
+        model.addAttribute("funcionarios", paginacao.getRegistros());
         model.addAttribute("cargos", cargoService.buscarTodos());
         return "funcionario/lista";
     }
