@@ -14,9 +14,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +30,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
+
+    private static String caminhoPastaImg = "B:\\ESTUDOS EXT\\SpringBoot\\Udemy\\Thymeleaf\\demo-mvc\\imageFuncionarios\\";
 
     @Autowired
     private FuncionarioService funcionarioService;
@@ -57,11 +65,29 @@ public class FuncionarioController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr){
+    public String salvar(@Valid Funcionario funcionario, BindingResult result,
+                         RedirectAttributes attr,@RequestParam("file") MultipartFile img){
         if(result.hasErrors()){
             return "funcionario/cadastro";
         }
         funcionarioService.salvar(funcionario);
+        long id = funcionarioService.buscarPorNome(funcionario.getNome()).get(0).getId();
+        if(!img.isEmpty()){
+            try {
+                //Salvando img na pasta de arquivos
+                String nomeImg = id + img.getContentType().replace("image/", ".");
+                byte[] imgBytes = img.getBytes();
+                Path caminho = Paths.get(caminhoPastaImg + nomeImg);
+                Files.write(caminho,imgBytes);
+
+                //salvando nome dela na db
+                funcionario.setImg(nomeImg);
+                funcionarioService.salvar(funcionario);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         attr.addFlashAttribute("success","Funcionário cadastrado com sucesso.");
         return "redirect:/funcionarios/cadastrar";
     }
@@ -115,6 +141,17 @@ public class FuncionarioController {
         return "funcionario/lista";
     }
 
+    @GetMapping("/buscarImg/{image}")
+    @ResponseBody
+    public byte[] buscarImg(@PathVariable("image") String nomeImg) throws IOException {
+        if (nomeImg != null){
+            File imgFile = new File(caminhoPastaImg + nomeImg);
+            byte[] bytes = Files.readAllBytes(imgFile.toPath());
+            return bytes;
+        }
+        return null;
+    }
+
     @ModelAttribute("cargos")
     public List<Cargo> listarCargos(){
         return cargoService.buscarTodos();
@@ -124,9 +161,4 @@ public class FuncionarioController {
     public UF[] listarUFS(){
         return UF.values();
     }
-    /*
-    @ModelAttribute("pageFuncionario")
-    public PaginacaoUtil<Funcionario> listarPaginacao(){
-        return funcionarioService.buscaPaginada(1,"asc");
-    }*/
 }

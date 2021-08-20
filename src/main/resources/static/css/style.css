@@ -8,7 +8,7 @@ html, body {
 body {
 	padding-top: 56px;
 	padding-left: 0;
-} 
+}
 
 /*
  * main layout
@@ -25,6 +25,7 @@ body {
 .layout-content {
     width: 100%;
     padding-top: 0px;
+    padding-bottom: 15px;
 }
 
 .container {
@@ -121,6 +122,11 @@ body {
 .none{
     display: none;
 }
+
+.tam-fixe {
+    /*Não deixa diminuir tanto o nome dos funcionarios*/
+        min-width: 130px !important;
+    }
 
 @media(max-width: 500px){
     .btn-none-displaySmall {

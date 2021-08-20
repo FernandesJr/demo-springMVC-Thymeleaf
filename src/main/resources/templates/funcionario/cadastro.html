@@ -18,7 +18,7 @@
 						</li>
 					</ul>
 				</div>
-				<a class="btn btn-primary btn-md" href="/funcionarios" role="button">
+				<a class="btn btn-primary btn-md" href="/funcionarios/listar" role="button">
 					<span class="oi oi-spreadsheet" title="Cadastro" aria-hidden="true"></span>
 					<span>Listar Funcionários</span>
 				</a>
@@ -29,7 +29,8 @@
 
 			<div th:replace="fragments/alert"></div>
 
-			<form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}" th:object="${funcionario}" method="POST">
+			<form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"
+				  th:object="${funcionario}" method="POST" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="nome">Nome do Funcionário</label>
@@ -152,6 +153,12 @@
 						<div class="invalid-feedback">
 							<span th:errors="*{endereco.cep}"></span>
 						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="bairro">Foto de perfil</label>
+						<input type="file" class="form-control" name="file"/>
 					</div>
 				</div>
 				<input type="hidden" id="id" th:field="*{id}"/>

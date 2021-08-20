@@ -87,25 +87,32 @@
 			</div>
 
 
-			<div class="table-responsive">
+			<div class="table-responsive-md">
 				<table class="table table-striped table-hover table-sm">
 					<thead>
 					<tr>
-						<th>#</th>
-						<th th:text="#{tabela.funcionario.col.nome}">Nome</th>
+						<th class="tam-fixe">
+							<a th:if="${pageFuncionario} != null" th:href="@{/funcionarios/listar(page=${pageFuncionario.pagina}, ord=asc)}">
+								<ion-icon name="chevron-up-outline"></ion-icon>
+							</a>
+							Nome
+							<a th:if="${pageFuncionario} != null" th:href="@{/funcionarios/listar(page=${pageFuncionario.pagina}, ord=desc)}">
+								<ion-icon name="chevron-down-outline"></ion-icon>
+							</a>
+						</th>
 						<th th:text="#{tabela.funcionario.col.salario}">Salário</th>
 						<th th:text="#{tabela.funcionario.col.departamento}">Departamento</th>
 						<th th:text="#{tabela.funcionario.col.cargo}">Cargo</th>
 						<th th:text="#{tabela.funcionario.col.endereco}">Endereço</th>
 						<th th:text="#{tabela.funcionario.col.dataEntrada}">Data de Entrada</th>
 						<th th:text="#{tabela.funcionario.col.dataSaida}">Data de Saída</th>
+						<th>Foto</th>
 						<th th:text="#{tabela.funcionario.col.acao}">Ação</th>
 					</tr>
 					</thead>
 					<tbody>
 					<tr th:each="f : ${funcionarios}">
-						<td th:text="${f.id}">1</td>
-						<td th:text="${f.nome}">Jorge da Silva</td>
+						<td th:text="${f.nome}" class="tam-fixe">Jorge da Silva</td>
 						<td th:text="|R$ ${{f.salario}}|">R$ 3.500,99</td>
 						<td th:text="${f.cargo.departamento.nome}">Recursos Humanos</td>
 						<td th:text="${f.cargo.nome}">Auxiliar de RH</td>
@@ -126,6 +133,9 @@
 						</td>
 						<td th:text="${#temporals.format(f.dataEntrada, 'dd/MM/yyyy')}">01/10/2014</td>
 						<td th:text="${#temporals.format(f.dataSaida, 'dd/MM/yyyy')}"></td>
+						<td>
+							<img th:src="@{/funcionarios/buscarImg/{image} (image=${f.img})}" width="50">
+						</td>
 						<td colspan="2">
 							<a class="btn btn-info btn-sm" th:href="@{/funcionarios/editar/{id} (id=${f.id})}" role="button">
 								<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
@@ -176,6 +186,9 @@
 			</div>
 		</div>
 		<div th:replace="fragments/modal"></div>
+		<!-- icones ionic.io-->
+		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	</section>
 </body>
 </html>		

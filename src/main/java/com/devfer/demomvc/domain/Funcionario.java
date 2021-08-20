@@ -51,6 +51,8 @@ public class Funcionario extends AbstractEntity<Long> {
     @Valid
     private Endereco endereco;
 
+    private String img;
+
     public String getNome() {
         return nome;
     }
@@ -97,5 +99,13 @@ public class Funcionario extends AbstractEntity<Long> {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

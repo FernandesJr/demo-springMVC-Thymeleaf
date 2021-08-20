@@ -31,7 +31,6 @@ xmlns:th="http://www.thymeleaf.org">
 				<table class="table table-striped table-hover table-sm">
 					<thead>
 					<tr>
-						<th>#</th>
 						<th>
 							<a th:href="@{/cargos/listar(page=${pageCargo.pagina}, ord=asc)}">
 								<ion-icon name="chevron-up-outline"></ion-icon>
@@ -47,7 +46,6 @@ xmlns:th="http://www.thymeleaf.org">
 					</thead>
 					<tbody>
 					<tr th:each="c : ${pageCargo.registros}">
-						<td th:text="${c.id}">1</td>
 						<td th:text="${c.nome}">Auxiliar Contábil</td>
 						<td th:text="${c.departamento.nome}">Contabilidade</td>
 						<td colspan="2">
