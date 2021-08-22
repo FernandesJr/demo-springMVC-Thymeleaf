@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,11 @@ import java.util.Optional;
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
 
+    //private static String caminhoPastaImg = "B:\\ESTUDOS EXT\\SpringBoot\\Udemy\\Thymeleaf\\demo-mvc\\imageFuncionarios\\";
     private static String caminhoPastaImg = "B:\\ESTUDOS EXT\\SpringBoot\\Udemy\\Thymeleaf\\demo-mvc\\imageFuncionarios\\";
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     private FuncionarioService funcionarioService;
@@ -78,6 +83,11 @@ public class FuncionarioController {
                 String nomeImg = id + img.getContentType().replace("image/", ".");
                 byte[] imgBytes = img.getBytes();
                 Path caminho = Paths.get(caminhoPastaImg + nomeImg);
+                /*String path = servletContext.getRealPath("/") + "src\\main\\resources\\static\\image\\users\\" + nomeImg;
+                //String path = servletContext.getResourcePaths("resources/imagens/users/")  + nomeImg;
+                System.out.println(path);
+
+                Path caminho = Paths.get(path);*/
                 Files.write(caminho,imgBytes);
 
                 //salvando nome dela na db
@@ -105,6 +115,12 @@ public class FuncionarioController {
         }
         this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
+
+        //String path = servletContext.getResourcePaths("/src/main/resources/static/image/users/")  + "TESTE.png";
+        String path = servletContext.getRealPath("/")  + "resources\\static\\image\\users\\";
+        String path2 = servletContext.getContextPath();
+        System.out.println(path);
+        System.out.println(path2);
         return "redirect:/funcionarios/listar";
     }
 
@@ -144,12 +160,18 @@ public class FuncionarioController {
     @GetMapping("/buscarImg/{image}")
     @ResponseBody
     public byte[] buscarImg(@PathVariable("image") String nomeImg) throws IOException {
+        File imgFile; //Arquivo a ser retornado
         if (nomeImg != null){
-            File imgFile = new File(caminhoPastaImg + nomeImg);
-            byte[] bytes = Files.readAllBytes(imgFile.toPath());
-            return bytes;
+            System.out.println("IMAGEM: " + nomeImg);
+            imgFile = new File(caminhoPastaImg + nomeImg);
+            return Files.readAllBytes(imgFile.toPath());
+        }else{
+            System.out.println("IMAGEM: " + nomeImg);
+            //Caso não tenha imagem cadastrada retorna a img default
+            imgFile = new File(caminhoPastaImg + "userDefault.png");
+
+            return Files.readAllBytes(imgFile.toPath());
         }
-        return null;
     }
 
     @ModelAttribute("cargos")
