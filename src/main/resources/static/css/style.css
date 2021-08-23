@@ -125,8 +125,12 @@ body {
 
 .tam-fixe {
     /*Não deixa diminuir tanto o nome dos funcionarios*/
-        min-width: 130px !important;
-    }
+    min-width: 130px !important;
+}
+
+.img-user {
+    border-radius: 25px;
+}
 
 @media(max-width: 500px){
     .btn-none-displaySmall {

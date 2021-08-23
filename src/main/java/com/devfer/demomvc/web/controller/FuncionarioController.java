@@ -2,9 +2,11 @@ package com.devfer.demomvc.web.controller;
 
 import com.devfer.demomvc.domain.Cargo;
 import com.devfer.demomvc.domain.Funcionario;
+import com.devfer.demomvc.domain.Image;
 import com.devfer.demomvc.domain.UF;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.FuncionarioService;
+import com.devfer.demomvc.service.ImageService;
 import com.devfer.demomvc.util.PaginacaoUtil;
 import com.devfer.demomvc.validator.FuncionarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,6 +47,9 @@ public class FuncionarioController {
     @Autowired
     private CargoService cargoService;
 
+    @Autowired
+    private ImageService imageService;
+
     //Primeiro método a ser execultado ao receber requisição
     @InitBinder
     public void initBindier(WebDataBinder binder){
@@ -59,39 +65,35 @@ public class FuncionarioController {
     @GetMapping("/listar")
     public String listar(ModelMap model,
                          @RequestParam("page") Optional<Integer> page,
-                         @RequestParam("ord") Optional<String> ord){
+                         @RequestParam("ord") Optional<String> ord) throws MalformedURLException {
         int pagina = page.orElse(1);
         String ordenacao = ord.orElse("asc");
         PaginacaoUtil<Funcionario> paginacao = funcionarioService.buscaPaginada(pagina, ordenacao);
         model.addAttribute("pageFuncionario", paginacao);
         model.addAttribute("funcionarios", paginacao.getRegistros());
         model.addAttribute("cargos", cargoService.buscarTodos());
+        System.out.println(servletContext.getContextPath());
+        System.out.println(servletContext.getResource("/").getPath());
         return "funcionario/lista";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid Funcionario funcionario, BindingResult result,
-                         RedirectAttributes attr,@RequestParam("file") MultipartFile img){
+                         RedirectAttributes attr, @RequestParam("file") MultipartFile img){
         if(result.hasErrors()){
             return "funcionario/cadastro";
         }
         funcionarioService.salvar(funcionario);
-        long id = funcionarioService.buscarPorNome(funcionario.getNome()).get(0).getId();
+
         if(!img.isEmpty()){
             try {
-                //Salvando img na pasta de arquivos
-                String nomeImg = id + img.getContentType().replace("image/", ".");
-                byte[] imgBytes = img.getBytes();
-                Path caminho = Paths.get(caminhoPastaImg + nomeImg);
-                /*String path = servletContext.getRealPath("/") + "src\\main\\resources\\static\\image\\users\\" + nomeImg;
-                //String path = servletContext.getResourcePaths("resources/imagens/users/")  + nomeImg;
-                System.out.println(path);
-
-                Path caminho = Paths.get(path);*/
-                Files.write(caminho,imgBytes);
-
-                //salvando nome dela na db
-                funcionario.setImg(nomeImg);
+                //funcionario.setImgByte(img.getBytes());
+                //funcionarioService.salvar(funcionario);
+                Image foto = new Image();
+                foto.setImgByte(img.getBytes());
+                foto.setTipo(img.getContentType().replace("image/", "."));
+                imageService.salvar(foto);
+                funcionario.setImg(foto);
                 funcionarioService.salvar(funcionario);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -115,12 +117,6 @@ public class FuncionarioController {
         }
         this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
-
-        //String path = servletContext.getResourcePaths("/src/main/resources/static/image/users/")  + "TESTE.png";
-        String path = servletContext.getRealPath("/")  + "resources\\static\\image\\users\\";
-        String path2 = servletContext.getContextPath();
-        System.out.println(path);
-        System.out.println(path2);
         return "redirect:/funcionarios/listar";
     }
 
@@ -157,21 +153,10 @@ public class FuncionarioController {
         return "funcionario/lista";
     }
 
-    @GetMapping("/buscarImg/{image}")
+    @GetMapping("/buscarImg/{id}")
     @ResponseBody
-    public byte[] buscarImg(@PathVariable("image") String nomeImg) throws IOException {
-        File imgFile; //Arquivo a ser retornado
-        if (nomeImg != null){
-            System.out.println("IMAGEM: " + nomeImg);
-            imgFile = new File(caminhoPastaImg + nomeImg);
-            return Files.readAllBytes(imgFile.toPath());
-        }else{
-            System.out.println("IMAGEM: " + nomeImg);
-            //Caso não tenha imagem cadastrada retorna a img default
-            imgFile = new File(caminhoPastaImg + "userDefault.png");
-
-            return Files.readAllBytes(imgFile.toPath());
-        }
+    public byte[] buscarImg(@PathVariable("id") Long id){
+        return funcionarioService.buscarPorId(id).getImgByte();
     }
 
     @ModelAttribute("cargos")

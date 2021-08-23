@@ -134,8 +134,8 @@
 						<td th:text="${#temporals.format(f.dataEntrada, 'dd/MM/yyyy')}">01/10/2014</td>
 						<td th:text="${#temporals.format(f.dataSaida, 'dd/MM/yyyy')}"></td>
 						<td>
-							<img th:if="${f.img} != null" th:src="@{/funcionarios/buscarImg/{image} (image=${f.img})}" width="50">
-							<img th:if="${f.img} == null" src="/image/users/user.png" width="50">
+							<img th:if="${f.imgByte} != null" th:src="@{/funcionarios/buscarImg/{id} (id=${f.id})}" width="50" class="img-thumbnail">
+							<img th:if="${f.imgByte} == null" src="/image/users/user.png" width="50">
 						</td>
 						<td colspan="2">
 							<a class="btn btn-info btn-sm" th:href="@{/funcionarios/editar/{id} (id=${f.id})}" role="button">

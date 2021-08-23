@@ -158,7 +158,9 @@
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="bairro">Foto de perfil</label>
-						<input type="file" class="form-control" name="file"/>
+						<input
+								th:field="*{img.imgByte}"
+								type="file" class="form-control-file" name="file" multiple accept="image/*"/>
 					</div>
 				</div>
 				<input type="hidden" id="id" th:field="*{id}"/>
