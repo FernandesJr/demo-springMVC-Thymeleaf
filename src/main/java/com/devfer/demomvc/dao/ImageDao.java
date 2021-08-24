@@ -15,4 +15,8 @@ public interface ImageDao {
     Image findById(Long id);
 
     List<Image> findAll();
+
+    List<Image> findByBytes(byte[] bytes);
+
+    List<Image> findByFuncionario(Long id);
 }

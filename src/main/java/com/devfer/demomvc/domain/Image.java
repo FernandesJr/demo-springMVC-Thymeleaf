@@ -1,19 +1,21 @@
 package com.devfer.demomvc.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "IMAGE")
 public class Image extends AbstractEntity<Long>{
 
-    private byte[] imgByte;
+    @Lob //representa um campo do tipo blob no bd
+    private byte[] imgByte; //armazena arquivo como um byte array
 
     private String tipo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "funcionario_id_fk")
+    private Funcionario funcionario;
 
     public byte[] getImgByte() {
         return imgByte;
@@ -29,5 +31,13 @@ public class Image extends AbstractEntity<Long>{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 }

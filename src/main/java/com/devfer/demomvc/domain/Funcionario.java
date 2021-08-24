@@ -51,20 +51,7 @@ public class Funcionario extends AbstractEntity<Long> {
     @Valid
     private Endereco endereco;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "img_id_fk")
-    private Image img;
-
-    @Lob   //representa um campo do tipo blob no bd
-    private byte[] imgByte;  //armazena arquivo como um byte array
-
-    public byte[] getImgByte() {
-        return imgByte;
-    }
-
-    public void setImgByte(byte[] imgByte) {
-        this.imgByte = imgByte;
-    }
+    private boolean img;
 
     public String getNome() {
         return nome;
@@ -114,11 +101,11 @@ public class Funcionario extends AbstractEntity<Long> {
         this.endereco = endereco;
     }
 
-    public Image getImg() {
+    public boolean isImg() {
         return img;
     }
 
-    public void setImg(Image img) {
+    public void setImg(boolean img) {
         this.img = img;
     }
 }

@@ -69,6 +69,13 @@
 		    })
 		});
 
+
+
+        //Adcionando ao href de exclusão do modal
+        $('#botao_edit').click(function(){
+            $('#form_edit').attr("action",uri);
+            $('#form_edit').submit();
+        });
 	</script>
 </body>
 </html>

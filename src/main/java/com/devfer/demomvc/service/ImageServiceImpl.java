@@ -3,9 +3,12 @@ package com.devfer.demomvc.service;
 import com.devfer.demomvc.dao.ImageDao;
 import com.devfer.demomvc.domain.Image;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service @Transactional
 public class ImageServiceImpl implements ImageService{
 
     @Autowired
@@ -35,4 +38,15 @@ public class ImageServiceImpl implements ImageService{
     public List<Image> buscarTodos() {
         return dao.findAll();
     }
+
+    @Override
+    public List<Image> buscarPorByte(byte[] bytes) {
+        return dao.findByBytes(bytes);
+    }
+
+    @Override
+    public List<Image> buscarPorFuncionario(Long id) {
+        return dao.findByFuncionario(id);
+    }
+
 }

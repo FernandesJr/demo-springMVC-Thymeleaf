@@ -21,12 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -86,18 +82,7 @@ public class FuncionarioController {
         funcionarioService.salvar(funcionario);
 
         if(!img.isEmpty()){
-            try {
-                //funcionario.setImgByte(img.getBytes());
-                //funcionarioService.salvar(funcionario);
-                Image foto = new Image();
-                foto.setImgByte(img.getBytes());
-                foto.setTipo(img.getContentType().replace("image/", "."));
-                imageService.salvar(foto);
-                funcionario.setImg(foto);
-                funcionarioService.salvar(funcionario);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            funcionarioService.salvarImg(funcionario, img);
         }
 
         attr.addFlashAttribute("success","Funcionário cadastrado com sucesso.");
@@ -115,7 +100,7 @@ public class FuncionarioController {
         if(result.hasErrors()){
             return "funcionario/cadastro";
         }
-        this.funcionarioService.editar(funcionario);
+        this.funcionarioService.salvar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
         return "redirect:/funcionarios/listar";
     }
@@ -156,7 +141,37 @@ public class FuncionarioController {
     @GetMapping("/buscarImg/{id}")
     @ResponseBody
     public byte[] buscarImg(@PathVariable("id") Long id){
-        return funcionarioService.buscarPorId(id).getImgByte();
+        return imageService.buscarPorFuncionario(id).get(0).getImgByte();
+    }
+
+    @PostMapping("/editar-foto/{id}")
+    public String editarFoto(@PathVariable("id") Long id, @RequestParam("file") MultipartFile img){
+        if (!img.isEmpty()){
+
+            try {
+                Funcionario f = funcionarioService.buscarPorId(id);
+                f.setImg(true);
+
+                Image i = new Image();
+                System.out.println(imageService.buscarPorFuncionario(id));
+                if(imageService.buscarPorFuncionario(id).isEmpty()){
+                    i.setFuncionario(f);
+                    i.setTipo(img.getContentType().replace("image/", "."));
+                    i.setImgByte(img.getBytes());
+                    imageService.salvar(i);
+                }else{
+                    i = imageService.buscarPorFuncionario(id).get(0);
+                    i.setTipo(img.getContentType().replace("image/", "."));
+                    i.setImgByte(img.getBytes());
+                    imageService.editar(i);
+                }
+                //funcionarioService.editar(f);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return "redirect:/funcionarios/listar";
     }
 
     @ModelAttribute("cargos")

@@ -132,6 +132,12 @@ body {
     border-radius: 25px;
 }
 
+.btn_photo {
+    cursor: pointer;
+    background: none;
+    border-style: none;
+}
+
 @media(max-width: 500px){
     .btn-none-displaySmall {
         display: none;

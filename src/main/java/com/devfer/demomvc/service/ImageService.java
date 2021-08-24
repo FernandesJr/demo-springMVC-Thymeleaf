@@ -15,4 +15,8 @@ public interface ImageService {
     Image buscarPorId(Long id);
 
     List<Image> buscarTodos();
+
+    List<Image> buscarPorByte(byte[] bytes);
+
+    List<Image> buscarPorFuncionario(Long id);
 }

@@ -134,8 +134,11 @@
 						<td th:text="${#temporals.format(f.dataEntrada, 'dd/MM/yyyy')}">01/10/2014</td>
 						<td th:text="${#temporals.format(f.dataSaida, 'dd/MM/yyyy')}"></td>
 						<td>
-							<img th:if="${f.imgByte} != null" th:src="@{/funcionarios/buscarImg/{id} (id=${f.id})}" width="50" class="img-thumbnail">
-							<img th:if="${f.imgByte} == null" src="/image/users/user.png" width="50">
+							<button th:id="${'btn_funcionarios/editar-foto/' + f.id}" type="button"
+									data-toggle="modal" data-target="#myModalEdit" class="btn_photo">
+								<img th:if="${f.img}" th:src="@{/funcionarios/buscarImg/{id} (id=${f.id})}" width="50" class="img-thumbnail">
+								<img th:if="${!f.img}" src="/image/users/user.png" width="50">
+							</button>
 						</td>
 						<td colspan="2">
 							<a class="btn btn-info btn-sm" th:href="@{/funcionarios/editar/{id} (id=${f.id})}" role="button">
@@ -150,7 +153,6 @@
 					</tbody>
 				</table>
 			</div>
-			<!-- th:if="${success} != null" -->
 			<div th:if="${pageFuncionario} != null" class="row">
 				<div class="col">
 					<!--Inicio dos seletores de paginação justify-content-around-->
@@ -182,7 +184,30 @@
 							</ul>
 						</nav>
 					</div>
-					<!--Final dos seletores de paginação-->
+				</div>
+			</div>
+			<!--Final dos seletores de paginação-->
+		</div>
+		<!-- Modal Edite foto-->
+		<div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Realmente deseja editar a FOTO?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="post" action="/funcionarios/editar-foto" id="form_edit" enctype="multipart/form-data">
+						<div class="modal-body">
+							Sua ação não poderá ser desfeita
+							<input id="file" type="file" class="form-control-file" name="file" multiple accept="image/*"/>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-primary" id="botao_edit">Editar</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
