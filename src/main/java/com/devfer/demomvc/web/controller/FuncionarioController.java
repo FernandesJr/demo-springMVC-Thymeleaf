@@ -2,7 +2,6 @@ package com.devfer.demomvc.web.controller;
 
 import com.devfer.demomvc.domain.Cargo;
 import com.devfer.demomvc.domain.Funcionario;
-import com.devfer.demomvc.domain.Image;
 import com.devfer.demomvc.domain.UF;
 import com.devfer.demomvc.service.CargoService;
 import com.devfer.demomvc.service.FuncionarioService;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,7 +30,6 @@ import java.util.Optional;
 public class FuncionarioController {
 
     //private static String caminhoPastaImg = "B:\\ESTUDOS EXT\\SpringBoot\\Udemy\\Thymeleaf\\demo-mvc\\imageFuncionarios\\";
-    private static String caminhoPastaImg = "B:\\ESTUDOS EXT\\SpringBoot\\Udemy\\Thymeleaf\\demo-mvc\\imageFuncionarios\\";
 
     @Autowired
     private ServletContext servletContext;
@@ -100,7 +97,8 @@ public class FuncionarioController {
         if(result.hasErrors()){
             return "funcionario/cadastro";
         }
-        this.funcionarioService.salvar(funcionario);
+
+        this.funcionarioService.editar(funcionario);
         attr.addFlashAttribute("success", "Funcionário editado com sucesso.");
         return "redirect:/funcionarios/listar";
     }
@@ -147,29 +145,7 @@ public class FuncionarioController {
     @PostMapping("/editar-foto/{id}")
     public String editarFoto(@PathVariable("id") Long id, @RequestParam("file") MultipartFile img){
         if (!img.isEmpty()){
-
-            try {
-                Funcionario f = funcionarioService.buscarPorId(id);
-                f.setImg(true);
-
-                Image i = new Image();
-                System.out.println(imageService.buscarPorFuncionario(id));
-                if(imageService.buscarPorFuncionario(id).isEmpty()){
-                    i.setFuncionario(f);
-                    i.setTipo(img.getContentType().replace("image/", "."));
-                    i.setImgByte(img.getBytes());
-                    imageService.salvar(i);
-                }else{
-                    i = imageService.buscarPorFuncionario(id).get(0);
-                    i.setTipo(img.getContentType().replace("image/", "."));
-                    i.setImgByte(img.getBytes());
-                    imageService.editar(i);
-                }
-                //funcionarioService.editar(f);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            funcionarioService.editarFoto(id, img);
         }
         return "redirect:/funcionarios/listar";
     }

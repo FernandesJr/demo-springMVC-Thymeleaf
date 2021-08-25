@@ -13,7 +13,7 @@ public class Image extends AbstractEntity<Long>{
 
     private String tipo;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "funcionario_id_fk")
     private Funcionario funcionario;
 

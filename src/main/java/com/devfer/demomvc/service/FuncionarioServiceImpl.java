@@ -26,18 +26,30 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     @Autowired
     private ImageService imageService;
 
+
     @Override
     public void salvar(Funcionario funcionario) {
         dao.save(funcionario);
     }
 
+    @Transactional
     @Override
     public void editar(Funcionario funcionario) {
+        //Só permite verificar no banco de dados quando a img for false
+        //Por causa do cadastro de funcionarios
+        if(!funcionario.isImg()){
+            funcionario.setImg(!imageService.buscarPorFuncionario(funcionario.getId()).isEmpty());
+        }
         dao.update(funcionario);
     }
 
     @Override
     public void excluir(Long id) {
+        if(!imageService.buscarPorFuncionario(id).isEmpty()){
+            //Caso tenha Image relacionada a um Funcionario
+            Image i = imageService.buscarPorFuncionario(id).get(0);
+            imageService.excluir(i.getId());
+        }
         dao.delete(id);
     }
 
@@ -104,5 +116,29 @@ public class FuncionarioServiceImpl implements FuncionarioService{
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void editarFoto(Long id, MultipartFile img) {
+        try {
+            Funcionario f = this.buscarPorId(id);
+            f.setImg(true);
+
+            Image i = new Image();
+            if(imageService.buscarPorFuncionario(id).isEmpty()){
+                i.setFuncionario(f);
+                i.setTipo(img.getContentType().replace("image/", "."));
+                i.setImgByte(img.getBytes());
+                imageService.salvar(i);
+            }else{
+                i = imageService.buscarPorFuncionario(id).get(0);
+                i.setTipo(img.getContentType().replace("image/", "."));
+                i.setImgByte(img.getBytes());
+                imageService.editar(i);
+            }
+            //funcionarioService.editar(f); O JPA resolve ao salvar a image ele seta o relacionamento em Funcionario
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

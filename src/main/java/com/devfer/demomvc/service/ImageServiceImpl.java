@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service @Transactional
+@Service
 public class ImageServiceImpl implements ImageService{
 
     @Autowired
@@ -45,6 +45,7 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Image> buscarPorFuncionario(Long id) {
         return dao.findByFuncionario(id);
     }

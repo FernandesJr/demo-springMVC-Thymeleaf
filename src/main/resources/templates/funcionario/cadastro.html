@@ -34,7 +34,7 @@
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="nome">Nome do Funcionário</label>
-						<input type="text" class="form-control" id="nome" placeholder="Nome Completo"
+						<input type="text" class="form-control" id="nome" placeholder="Nome Completo *"
 							   autofocus="autofocus" th:field="*{nome}"
 						       th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'"/>
 						<div class="invalid-feedback">
@@ -45,7 +45,8 @@
 						<label for="salario">Salário Bruto</label>
 						<input type="text" class="form-control" id="salario" data-mask="#.##0,00"
 							   data-mask-reverse="true" th:field="*{salario}"
-							   th:classappend="${#fields.hasErrors('salario')} ? 'is-invalid'"/>
+							   th:classappend="${#fields.hasErrors('salario')} ? 'is-invalid'"
+							   placeholder="Salário *"/>
 						<div class="invalid-feedback">
 							<span th:errors="*{salario}"></span>
 						</div>
@@ -53,7 +54,7 @@
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-6">
-						<label for="dataEntrada">Data de Entrada</label>
+						<label for="dataEntrada">Data de Entrada *</label>
 						<input type="date" class="form-control" id="dataEntrada" th:field="*{dataEntrada}"
 							   th:classappend="${#fields.hasErrors('dataEntrada')} ? 'is-invalid'"/>
 						<div class="invalid-feedback">
@@ -74,7 +75,7 @@
 						<label for="cargo">Cargo</label>
 						<select id="cargo" class="form-control" th:field="*{cargo}"
 								th:classappend="${#fields.hasErrors('cargo')} ? 'is-invalid'">
-							<option value="">Selecione...</option>
+							<option value="">Selecione...*</option>
 							<option th:each="c : ${cargos}"
 									th:value="${c.id}"
 									th:text="${c.nome}">Auxiliar Contábil</option>
@@ -88,7 +89,8 @@
 					<div class="form-group col-md-6">
 						<label for="cidade">Cidade</label>
 						<input type="text" class="form-control" id="cidade" th:field="*{endereco.cidade}"
-							   th:classappend="${#fields.hasErrors('endereco.cidade')} ? 'is-invalid'"/>
+							   th:classappend="${#fields.hasErrors('endereco.cidade')} ? 'is-invalid'"
+							   placeholder="Recife *"/>
 						<div class="invalid-feedback">
 							<span th:errors="*{endereco.cidade}"></span>
 						</div>
@@ -108,7 +110,8 @@
 						<label for="numero">Número</label>
 						<input type="text" class="form-control" id="numero" th:field="*{endereco.numero}"
 							   data-mask="####" data-mask-reverse="true"
-							   th:classappend="${#fields.hasErrors('endereco.numero')} ? 'is-invalid'"/>
+							   th:classappend="${#fields.hasErrors('endereco.numero')} ? 'is-invalid'"
+							   placeholder="1234 *"/>
 						<div class="invalid-feedback">
 							<span th:errors="*{endereco.numero}"></span>
 						</div>
@@ -127,7 +130,8 @@
 					<div class="form-group col-md-6">
 						<label for="bairro">Bairro</label>
 						<input type="text" class="form-control" id="bairro" th:field="*{endereco.bairro}"
-							   th:classappend="${#fields.hasErrors('endereco.bairro')} ? 'is-invalid'"/>
+							   th:classappend="${#fields.hasErrors('endereco.bairro')} ? 'is-invalid'"
+							   placeholder="Centro *"/>
 						<div class="invalid-feedback">
 							<span th:errors="*{endereco.bairro}"></span>
 						</div>
@@ -136,7 +140,7 @@
 						<label for="uf">UF</label>
 						<select id="uf" class="form-control" th:field="*{endereco.uf}"
 								th:classappend="${#fields.hasErrors('endereco.uf')} ? 'is-invalid'">
-							<option value="">Selecione...</option>
+							<option value="">Selecione...*</option>
 							<option th:each="uf : ${ufs}"
 									th:value="${uf.sigla}"
 									th:text="${uf.sigla}">AC</option>
@@ -149,7 +153,8 @@
 						<label for="cep">Cep</label>
 						<input type="text" class="form-control" id="cep" data-mask="00000-000"
 							   th:field="*{endereco.cep}"
-							   th:classappend="${#fields.hasErrors('endereco.cep')} ? 'is-invalid'"/>
+							   th:classappend="${#fields.hasErrors('endereco.cep')} ? 'is-invalid'"
+							   placeholder="*"/>
 						<div class="invalid-feedback">
 							<span th:errors="*{endereco.cep}"></span>
 						</div>
@@ -163,6 +168,7 @@
 						<div id="collapseFoto" class="collapse">
 							<label for="file">Foto de perfil</label>
 							<input id="file" type="file" class="form-control-file" name="file" multiple accept="image/*"/>
+							<span>Não obrigatório</span>
 						</div>
 					</div>
 				</div>

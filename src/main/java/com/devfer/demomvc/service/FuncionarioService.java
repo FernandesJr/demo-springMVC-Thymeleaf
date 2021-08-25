@@ -28,4 +28,6 @@ public interface FuncionarioService {
     PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String ordenacao);
 
     void salvarImg(Funcionario funcionario, MultipartFile img);
+
+    void editarFoto(Long id, MultipartFile img);
 }
